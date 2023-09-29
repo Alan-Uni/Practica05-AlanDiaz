@@ -163,7 +163,7 @@ namespace Practica05_AlanDiaz
             // 
             // btn_Guardar
             // 
-            this.btn_Guardar.Location = new System.Drawing.Point(96, 333);
+            this.btn_Guardar.Location = new System.Drawing.Point(101, 338);
             this.btn_Guardar.Name = "btn_Guardar";
             this.btn_Guardar.Size = new System.Drawing.Size(237, 69);
             this.btn_Guardar.TabIndex = 11;
@@ -173,7 +173,7 @@ namespace Practica05_AlanDiaz
             // 
             // btn_Cancelar
             // 
-            this.btn_Cancelar.Location = new System.Drawing.Point(402, 333);
+            this.btn_Cancelar.Location = new System.Drawing.Point(101, 442);
             this.btn_Cancelar.Name = "btn_Cancelar";
             this.btn_Cancelar.Size = new System.Drawing.Size(237, 69);
             this.btn_Cancelar.TabIndex = 12;
@@ -186,7 +186,7 @@ namespace Practica05_AlanDiaz
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(512, 546);
             this.Controls.Add(this.btn_Cancelar);
             this.Controls.Add(this.btn_Guardar);
             this.Controls.Add(this.gp_Genero);
