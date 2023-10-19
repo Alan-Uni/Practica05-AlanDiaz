@@ -9,11 +9,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using MySql.Data.MySqlClient;
 
 namespace Practica05_AlanDiaz
 {
     public partial class Form1 : Form
     {
+        string conexionSQL = "Server=localhost;Port=3306;Database=programacionavanzada;Uid=root;Pwd=;";
         public Form1()
         {
             InitializeComponent();
@@ -26,7 +28,28 @@ namespace Practica05_AlanDiaz
             txt_Nombre.TextChanged += ValidarNombre;
             txt_Apellidos.TextChanged += ValidarApellidos;
         }
+        private void InsertarRegistro(string nombre, string apellidos, int edad, decimal estatura,string telefono, string genero)
+        {
+            using (MySqlConnection connection = new MySqlConnection(conexionSQL))
+            {
+                connection.Open();
+                string insertQuery = "INSERT INTO registros (Nombre, Apellidos, Edad, Estatura, Telefono, Genero) "+
+                                     "Values (@Nombre, @Apellidos, @Edad, @Estatura, @Telefono, @Genero)";
+                using (MySqlCommand command = new MySqlCommand(insertQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@Nombre", nombre);
+                    command.Parameters.AddWithValue("@Apellidos", apellidos);
+                    command.Parameters.AddWithValue("@Edad", edad);
+                    command.Parameters.AddWithValue("@Estatura", estatura);
+                    command.Parameters.AddWithValue("@Telefono", telefono);
+                    command.Parameters.AddWithValue("@Genero", genero);
 
+                    command.ExecuteNonQuery();
+
+                }
+                connection.Close();
+            }
+        }
         private void btn_Guardar_Click(object sender, EventArgs e)
         {
             string nombres = txt_Nombre.Text;
@@ -69,8 +92,16 @@ namespace Practica05_AlanDiaz
                         if (archivoExiste)
                         {
                             writer.WriteLine();
+                            InsertarRegistro(nombres, apellidos, int.Parse(edad), decimal.Parse(estatura), telefono, genero);
+                            MessageBox.Show("Datos ingresados correctamente.");
                         }
-                        writer.WriteLine(datos);
+                        else
+                        {
+                            writer.WriteLine(datos);
+                            InsertarRegistro(nombres, apellidos, int.Parse(edad), decimal.Parse(estatura), telefono, genero);
+                            MessageBox.Show("Datos ingresados correctamente.");
+
+                        }
 
                     }
                 }
@@ -94,10 +125,17 @@ namespace Practica05_AlanDiaz
             decimal resultado;
             return decimal.TryParse(valor, out resultado);
         }
-        private bool EsEnteroValidoDe100Digitos(string valor)
+        private bool EsEnteroValidoDe100Digitos(string input)
         {
-            long resultado;
-            return long.TryParse(valor, out resultado);
+            if (input.Length != 10)
+            {
+                return false;
+            }
+            if (!input.All(char.IsDigit))
+            {
+                return false;
+            }
+            return true;
         }
         private bool EsTextoValido(string valor)
         {
@@ -128,17 +166,14 @@ namespace Practica05_AlanDiaz
             string input = textBox.Text;
             //eliminar espacios en blanco y guiones si fuera a ser necesario
 
-            if (input.Length > 10)
+            if (input.Length < 10)
             {
-                if (!EsEnteroValidoDe100Digitos(input))
-                {
-                    MessageBox.Show("Por favor, ingrese un telefono valido valido de 10 digitos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    textBox.Clear();
-                }
-            }else if (!EsEnteroValidoDe100Digitos(input))
+                return;
+            }
+            if (!EsEnteroValidoDe100Digitos(input))
             {
                 MessageBox.Show("Por favor, ingrese un telefono valido valido de 10 digitos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+                textBox.Clear();
             }
         }
         
