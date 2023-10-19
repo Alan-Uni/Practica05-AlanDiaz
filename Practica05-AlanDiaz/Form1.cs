@@ -15,7 +15,7 @@ namespace Practica05_AlanDiaz
 {
     public partial class Form1 : Form
     {
-        string conexionSQL = "Server=localhost;Port=3306;Database=programacionavanzada;Uid=root;Pwd=;";
+        string conexionSQL = "Server=localhost;Port=3306;Database=Formulario;Uid=root;Pwd=;";
         public Form1()
         {
             InitializeComponent();
